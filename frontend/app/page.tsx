@@ -5,6 +5,9 @@ import { useAccount, useBalance, useDisconnect, useSignMessage } from 'wagmi'
 import { formatEther } from 'viem'
 import { useState } from 'react'
 import { TenderlySimulation } from '@/components/TenderlySimulation'
+import { Web3Dashboard } from '@/components/Web3Dashboard'
+import { YieldDashboard } from '@/components/YieldDashboard'
+import { EthersDemo } from '@/components/EthersDemo'
 
 export default function Home() {
   const { address, isConnected, chain } = useAccount()
@@ -36,13 +39,13 @@ export default function Home() {
           <ConnectButton showBalance={true} />
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="space-y-8">
           {/* Wallet Info Section */}
           <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl p-8 border border-gray-700">
             <h2 className="text-2xl font-bold mb-6">Wallet Information</h2>
             
             {isConnected ? (
-              <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-4">
                   <div>
                     <p className="text-gray-400">Connected Address</p>
@@ -67,30 +70,36 @@ export default function Home() {
                       </p>
                     </div>
                   )}
+                </div>
 
-                  <div className="flex gap-4 pt-4">
+                <div className="space-y-4">
+                  <div className="flex gap-4">
                     <button
                       onClick={handleSignMessage}
-                      className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:opacity-90 px-6 py-3 rounded-lg font-semibold transition-all"
+                      className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:opacity-90 px-6 py-3 rounded-lg font-semibold transition-all flex-1"
                     >
-                      Sign Test Message
+                      Sign Message
                     </button>
                     <button
                       onClick={() => disconnect()}
-                      className="bg-gradient-to-r from-red-600 to-pink-500 hover:opacity-90 px-6 py-3 rounded-lg font-semibold transition-all"
+                      className="bg-gradient-to-r from-red-600 to-pink-500 hover:opacity-90 px-6 py-3 rounded-lg font-semibold transition-all flex-1"
                     >
                       Disconnect
                     </button>
                   </div>
 
                   {signature && (
-                    <div className="mt-4">
+                    <div>
                       <p className="text-gray-400">Signature</p>
                       <p className="font-mono text-sm break-all bg-gray-900 p-3 rounded-lg">
                         {signature}
                       </p>
                     </div>
                   )}
+
+                  <div className="pt-4 border-t border-gray-700">
+                    <EthersDemo />
+                  </div>
                 </div>
               </div>
             ) : (
@@ -106,9 +115,20 @@ export default function Home() {
             )}
           </div>
 
-          {/* Tenderly Simulation Section */}
-          <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl p-8 border border-gray-700">
-            <TenderlySimulation />
+          {/* Web3 Provider Dashboard */}
+          <Web3Dashboard />
+
+          {/* Grid for other components */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Tenderly Simulation Section */}
+            <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl p-8 border border-gray-700">
+              <TenderlySimulation />
+            </div>
+
+            {/* Yield Dashboard */}
+            <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl p-8 border border-gray-700">
+              <YieldDashboard />
+            </div>
           </div>
         </div>
       </div>
